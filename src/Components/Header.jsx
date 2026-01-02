@@ -1,7 +1,8 @@
-import React from 'react';
+import { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Header = () => {
+  console.log('Header renderizou');
   return (
     <nav className='mb-8'>
       <ul className='flex'>
@@ -39,4 +40,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);
