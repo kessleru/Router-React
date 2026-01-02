@@ -1,10 +1,8 @@
-import React from 'react';
-
 const Footer = () => {
   return (
-    <div>
-      <h1>Footer</h1>
-    </div>
+    <footer className='border-t border-zinc-200 py-6 text-center text-sm text-zinc-600'>
+      <p>Router. Alguns direitos reservados.</p>
+    </footer>
   );
 };
 

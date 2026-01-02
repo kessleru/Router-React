@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react';
-import { PageHead } from '../seo/PageHead';
+import { PageHead } from '../Seo/PageHead';
 import { Link } from 'react-router-dom';
 
 const Produtos = () => {
-  const [produtos, setProdutos] = useState([]);
+  const FORCE_LOADING = false;
+
+  const [produtos, setProdutos] = useState(null);
   const [erro, setErro] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imgCarregada, setImgCarregada] = useState({});
+
+  const isLoading = FORCE_LOADING || loading;
 
   useEffect(() => {
     const controller = new AbortController();
 
-    async function fetchProduto() {
+    async function fetchProdutos() {
       try {
         setLoading(true);
         setErro(null);
@@ -31,29 +36,55 @@ const Produtos = () => {
         setLoading(false);
       }
     }
-    fetchProduto();
+    fetchProdutos();
 
     return () => controller.abort();
   }, []);
 
-  if (produtos === null) return null;
+  if (erro) return `${erro}`;
 
   return (
     <>
       <PageHead title='Produtos' description='Informações para contato' />
 
       <h1 className='mb-4 font-bold text-3xl'>Produtos</h1>
-      <section className='animate-animeLeft grid grid-cols-3 gap-8'>
-        {produtos.map((produto) => (
-          <Link to={`produto/${produto.id}`} key={produto.id}>
-            <img
-              className='rounded-md'
-              src={produto.fotos[0].src}
-              alt={produto.fotos[0].titulo}
-            />
-            <h1 className='my-2 text-xl'>{produto.nome}</h1>
-          </Link>
-        ))}
+      <section className='animate-animeLeft grid grid-cols-3 gap-8 mb-8'>
+        {isLoading &&
+          Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className='pointer-events-none'>
+              <div className='rounded-md aspect-square w-full bg-zinc-200 animate-pulse' />
+              <div className='my-2 h-6 w-3/4 rounded bg-zinc-200 animate-pulse' />
+            </div>
+          ))}
+        {!isLoading &&
+          produtos?.map((produto) => {
+            const src = produto.fotos?.[0]?.src;
+            const titulo = produto.fotos?.[0]?.titulo || produto.nome;
+
+            return (
+              <Link to={`produto/${produto.id}`} key={produto.id}>
+                <div className='relative rounded-md aspect-square overflow-hidden'>
+                  {!imgCarregada[produto.id] && (
+                    <div className='absolute inset-0 bg-zinc-200 animate-pulse' />
+                  )}
+                  {src && (
+                    <img
+                      className={`absolute inset-0 h-full w-full object-cover ${imgCarregada[produto.id] ? 'block' : 'hidden'}`}
+                      src={src}
+                      alt={titulo}
+                      onLoad={() =>
+                        setImgCarregada((estado) => ({
+                          ...estado,
+                          [produto.id]: true,
+                        }))
+                      }
+                    />
+                  )}
+                </div>
+                <h1 className='my-2 text-xl'>{produto.nome}</h1>
+              </Link>
+            );
+          })}
       </section>
     </>
   );

@@ -1,5 +1,4 @@
-import React from 'react';
-import { PageHead } from '../seo/PageHead';
+import { PageHead } from '../Seo/PageHead';
 
 const Contato = () => {
   return (
@@ -8,7 +7,7 @@ const Contato = () => {
 
       <div className='grid grid-cols-2 gap-8 animate-animeLeft mb-8'>
         <img
-          className='w-full rounded-md'
+          className='rounded-md'
           src='/img/contato.jpg'
           alt='Máquina de escrever'
         />

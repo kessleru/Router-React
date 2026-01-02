@@ -7,15 +7,17 @@ import Footer from './Components/Footer';
 
 const App = () => {
   return (
-    <div className="container">
+    <div className="container flex flex-col min-h-[calc(100vh+4rem)]">
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/" element={<Produtos />} />
-          <Route path="produto/:id" element={<Produto />} />
-          <Route path="contato" element={<Contato />} />
-        </Routes>
-        <Footer/>
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Produtos />} />
+            <Route path="produto/:id" element={<Produto />} />
+            <Route path="contato" element={<Contato />} />
+          </Routes>
+        </main>
+        <Footer />
       </BrowserRouter>
     </div>
   );
