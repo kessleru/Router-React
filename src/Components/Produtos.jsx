@@ -50,7 +50,7 @@ const Produtos = () => {
       <h1 className='mb-4 font-bold text-3xl'>Produtos</h1>
       <section className='animate-animeLeft grid grid-cols-3 gap-8 mb-8'>
         {isLoading &&
-          Array.from({ length: 6 }).map((_, index) => (
+          Array.from({ length: 9 }).map((_, index) => (
             <div key={index} className='pointer-events-none'>
               <div className='rounded-md aspect-square w-full bg-zinc-200 animate-pulse' />
               <div className='my-2 h-6 w-3/4 rounded bg-zinc-200 animate-pulse' />
